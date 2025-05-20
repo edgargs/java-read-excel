@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import static tech.tablesaw.aggregate.AggregateFunctions.max;
 import static tech.tablesaw.aggregate.AggregateFunctions.mean;
@@ -30,6 +31,10 @@ import tech.tablesaw.joining.DataFrameJoiner;
 
 public class CalculateAverage
 {
+    
+    static ResourceBundle rd
+            = ResourceBundle.getBundle("system");
+    
     static private final String FILE = "/home/eriosn/Descargas/Reporte 17-05-2025.xlsx";
 
     public static void main(String[] args) throws Exception
@@ -149,8 +154,9 @@ public class CalculateAverage
 
     static void saveTableToSqlite(String data)
     {
+        String database = rd.getString("database");
         // SQLite connection string
-        String url = "jdbc:sqlite:sample.db";
+        String url = "jdbc:sqlite:"+database;
 
         // SQL statement for creating a new table
         String sql = """
