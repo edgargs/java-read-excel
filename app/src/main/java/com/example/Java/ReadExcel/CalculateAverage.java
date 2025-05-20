@@ -26,6 +26,7 @@ import static tech.tablesaw.api.ColumnType.LOCAL_DATE;
 
 import tech.tablesaw.io.xlsx.XlsxReadOptions;
 import tech.tablesaw.io.xlsx.XlsxReader;
+import tech.tablesaw.joining.DataFrameJoiner;
 
 public class CalculateAverage
 {
@@ -57,9 +58,11 @@ public class CalculateAverage
                 .findFirst()
                 .get();
         
-        Table measurements = reporteTiempoMediano.
-                joinOn("LT")
-                .inner(baseDeActivos, "LT",true);
+        Table measurements = new DataFrameJoiner(reporteTiempoMediano, "LT")
+                .with(baseDeActivos)
+                .rightJoinColumns("LT")
+                .allowDuplicateColumnNames(true)
+                .join();                
         
         measurements = measurements
                 .where( measurements.stringColumn("CAL").isEqualTo("Checo Perez") );
